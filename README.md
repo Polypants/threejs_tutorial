@@ -1,4 +1,4 @@
-# Threejs Tutorial
+# Three.js Tutorial
 
 A Three.js tutorial, from the basics of setting up a scene to cube environment maps, bump texture maps, and reflective textures.
 
