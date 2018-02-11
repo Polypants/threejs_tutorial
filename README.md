@@ -1,19 +1,20 @@
-# Three.js Tutorial
+# A Three.js Tutorial
 
-A Three.js tutorial, from the basics of setting up a scene to cube environment maps, bump texture maps, and reflective textures.
+This tutorial will walk you through the basics of setting up a scene, to using cube environment maps, bump texture maps, and reflective textures.
 
-## What We're Building
+## The Project
 
-To see the finished product, `cd` to `threejs_tutorial/finish`, run `npm install`, and then `npm start`.
+To see the finished product, `cd` to `threejs_tutorial/finish` and run `npm install` to install the dependencies.
+Once that's done, run `npm start` to start the development server.
 
 ## Getting Started
 
-Download the archive. `cd` to `threejs_tutorial/start` and run `npm install` to install the dependencies listed in the package.json.
+Download the archive. `cd` to `threejs_tutorial/start` and run `npm install` to install the dependencies.
 Once that's done, run `npm start` to start the development server.
 
 ## Creating the Scene Object
 
-A Scene represents the 3D world we will be building. It’s a container for all our 3D objects. Remember to include a capital ‘S’ in THREE.Scene() and a lowercase 's' for the variable name.
+A Scene represents the 3D world we will be building. It’s a container for all our 3D objects. Remember to include a capital 'S' in `THREE.Scene()` and a lowercase 's' for the variable name.
 
 ```
 var scene = new THREE.Scene();
@@ -21,7 +22,7 @@ var scene = new THREE.Scene();
 
 ## Creating a Camera
 
-The camera is one of two things that will determin how we'll see our 3D scene.
+The camera is one of two things that will determine how we will see our 3D scene.
 The first parameter is the field of view, 
 second is the aspect ratio,
 third is the near clipping plane,
@@ -40,7 +41,7 @@ var camera = new THREE.PerspectiveCamera(
 ## Creating the Renderer
 
 Now we'll need to render what the camera sees. Three.js comes with different kinds of renderers, we will be using the WebGL renderer.
-There are also `canvas` and `SVG` renderers. The use the CPU for rendering, unlike webGL that uses the GPU. This means rendering time is way faster with the WebGL renderer. Also, some features like shadows and shaders aren’t available to those other renderers. They can be useful if you need to support enviornments that don't support WebGL.
+There are also `canvas` and `SVG` renderers. The use the CPU for rendering, unlike webGL that uses the GPU. This means rendering time is way faster with the WebGL renderer. Also, some features like shadows and shaders aren’t available to those other renderers. They can be useful if you need to support environments that don't support WebGL.
 
 ```
 var renderer = new THREE.WebGLRenderer();
@@ -52,13 +53,13 @@ We also need to set the size of the renderer, which will determine the size of t
 renderer.setSize(window.innerWidth, window.innerHeight);
 ```
 
-And then append the renderer’s DOMelement to the `#root` div, already present in our index.HTML file.
+And then append the `renderer`’s `domElement` attribute to the `#root` div, already present in our index.HTML file.
 
 ```
 document.getElementById(‘root’).appendChild(renderer.domElement);
 ```
 
-And now we can call the .render() method of the renderer object to get it to display something.
+And now we can call the `render()` method of the `renderer` object to get it to display something.
 
 ```
 renderer.render(scene, camera);
@@ -69,8 +70,8 @@ If we run this now, we should see a black screen. This is good! This is our 3D w
 ## Creating a Sphere
 
 Let’s make something to look at now. 
-Before the renderer code, we can add the following code. 
-Well need to define a shape for the object to take and the material for it to be made out of, then we’ll combine the two and finally, we'll add that to the scene.
+Before the `renderer` code, we can add the following code.
+When we want to create 3D object in Three.js, we need to define the object's shape and material separately, then they get combined to create a 3D object. Then it needs to be added to the scene.
 
 ```
 var sphereGeometry = new THREE.SphereGeometry();
@@ -79,14 +80,14 @@ var sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
 scene.add(sphere);
 ```
 
-If we look at our scene, we won’t be able to see anything yet. This is because the camera and the sphere we just created are overlapping each other in the center of the scene. 
+If we look at our scene, we won’t be able to see anything yet. This is because the `camera` and the `sphere` we just created are overlapping each other in the center of the scene. 
 Let’s fix this by moving the camera towards us, on the z axis.
 
 ```
 camera.position.z = 10;
 ```
 
-When no parameters are set for a `SphereGeometry`, it defaults to a polygonal sphere. Its not very pretty, in my oppinion. Let’s add some more vertices to it to make it look more round. 
+When no parameters are set for a `SphereGeometry`, it defaults to a polygonal sphere and aren't very pretty. Let’s add some more vertices to it to make it look more round. 
 The first parameter is the size (defaults to 1), the second parameter is the width segments, and the third is the height segments. Add parameters to match the following code.
 
 ```
@@ -102,13 +103,13 @@ Right now, the ball just looks like a flat circle. It’s 3D, but because the `M
 
 ## The MeshLambertMaterial
 
-Let's change the material from `MeshBasicMaterial` to `MeshlLambertMaterial`. The lambert material has a matt finish, which makes it look like rubber or clay or maybe an egg shell even.
+Let's change the material from a `MeshBasicMaterial` to `MeshLambertMaterial`. The lambert material has a matt finish, like rubber or clay.
 
 ```
 var sphereMaterial = new THREE.MeshLambertMaterial({ color: 0xff5500 });
 ```
 
-If we check our scene, everyhting should be black again. This is good! It's back because there's no light to illuminate our sphere.
+If we check our scene, everything should be black again. This is good! It's back because there's no light to illuminate our sphere.
 
 ## Creating a Light
 
@@ -125,8 +126,9 @@ scene.add(pointLight);
 
 So now we can see our ball, with the light coming in a little bit from the side. It looks 3D, but it would be better if we could see it from different angles.
 
-## Setting up OrbitControles
-`OrbitControles` is a package made for Three.js to set up basic click and drag controls for a scene. After the camera code, add the following code to initialize the controls.
+## Setting up OrbitControls
+
+`OrbitControls` is a package made for Three.js to set up basic click and drag controls for a scene. After the camera code, add the following code to initialize the controls.
 
 ```
 var controls = new OrbitControls(camera);
@@ -134,7 +136,7 @@ var controls = new OrbitControls(camera);
 
 ## Setting up the Render Loop
 
-There’s one more thing we’ll need to set up before we can have the controles working. 
+There’s one more thing we’ll need to set up before we can have the controls working. 
 Right now, the `renderer.render()` is being run once, to display a single static image. To be able to update the scene, we’ll need to call it recursively (over and over) for each frame. We could use a `setInterval()` function, but `requestAnimationFrame()` has optimizations for this specific purpose, like pausing when we're not viewing the webpage.
 
 ```
@@ -152,7 +154,7 @@ function animate() {
 We can take out the old `render.render()` that's outside the `animate()` function. Now, the controls are updated with each frame and the renderer renders the image. 
 If we look at our scene, we should be able to drag around and zoom in and out to get a better view of what’s going on.
 
-Now that we have orbit controles, lets play around with another kind of material.
+Now that we have orbitcontrols, lets play around with another kind of material.
 
 ## The MeshPhongMaterial
 So far, we’ve looked at the `MeshBasicMaterial`, which is always fully illuminated and the `MeshLambertMaterial` which is has a dull, matt finish. 
@@ -162,9 +164,8 @@ Lets now try the `MeshPhongMaterial` which adds a `shininess` parameter. Modify 
 var sphereMaterial = new THREE.MeshPhongMaterial({ color: 0xff5500, shininess: 10 });
 ```
 
-If we look at our scene, the sphere looks a liiiiitle shiny. Let's jack up the `shininess` to `1000`.
-
-Now our ball is looking pretty shiny, like a pool ball or something. Cool.
+If we look at our scene, the sphere looks a little shiny. Let's jack up the `shininess` to `1000`.
+Now our ball very shiny, like a pool ball or something.
 
 ## Creating the init() Function
 
@@ -179,7 +180,7 @@ function init() {
 }
 ```
 Make sure to include the `animate()` function call at the bottom of the `init()` function declaration.
-We could leave it as-is, with `init()` being called before its declared, as JavaScript ‘hoists’ all functions to the top of their block scope. But, because we’re just calling it once, I like to make the function self-calling like this
+We could leave it as-is, with `init()` being called before its declared, as JavaScript ‘hoists’ all functions to the top of their block scope. But, because we only need to call it once, I like to make the function self-calling with the following code.
 
 ```
 (function init() {
@@ -189,13 +190,15 @@ We could leave it as-is, with `init()` being called before its declared, as Java
 
 This way, `init()` is called automatically.
 
-Now that all our variables aren’t in the global scope anymore, we’ll need to pass some of them as parameters to the animate function and modify how the requestAnimationframe callback function is setup.
-animate( controls, renderer, scene, camera );
+Now that all our variables are not in the global scope, we will need to pass some of them as parameters to the `animate()` function.
+
+At the end of the `init()` function add the following code.
 
 ```
-// at the end of the init() function
 animate(controls, renderer, scene, camera);
 ```
+
+And now modify the `animate()` function to match the following code.
 
 ```
 function animate(controls, renderer, scene, camera) {
@@ -211,7 +214,7 @@ Now that that’s all done, everything is looking clean and organized.
 
 ## Rotations and Creating a Plane
 
-I'd like to set up shadows next but we first need somting for the sphere to cast a shadow onto. So let’s make a plane under the sphere.
+I'd like to set up shadows next but we first need something for the sphere to cast a shadow onto. So let’s make a plane under the sphere.
 For now we'll use a lambert material, but feel free to use a phong material and a shininess level to see what it looks like. We'll be using yet another material later though.
 
 The only new thing we're doing here is setting a `rotation` property. Three.js uses radians (not degrees) to calculate angles. Radians are based on the mathematical constant Pi.
@@ -228,7 +231,7 @@ scene.add(plane);
 
 ## Setting up Shadows
 
-To render shadows we need to tell the renderer that shadows will be rendered.
+To render shadows, we first need to tell the renderer that shadows will be rendered.
 
 ```
 renderer.shadowMap.enabled = true;
@@ -240,7 +243,7 @@ And tell the light to cast shadows.
 pointLight.castShadow = true;
 ```
 
-And now which objects should cast shadows, and which objects should receive them
+And now we will set which objects should cast shadows and which objects should receive them.
 
 ```
 plane.receiveShadow = true;
@@ -274,7 +277,7 @@ var sphereMaterial = new THREE.MeshStandardMaterial({
 });
 ```
 
-Try playing with the roughness and metalness values to see how it affects the look of the sphere.
+Try playing with the `roughness` and `metalness` values to see how it affects the look of the sphere.
 
 If you haven't noticed already, opacity won't do anything yet. We need to set the material's `transparent` parameter to `true` so it will accept an `opacity` value.
 
@@ -286,7 +289,8 @@ Now we can set the `opacity` to `0.5` or something and see the result. But I don
 
 ## Adding Textures
 
-Let’s try adding a texture to our plane. We’ll first create an instance of `TextureLoader` so we can use it more than once. Add the following variable above the `scene` variable.
+Let’s try adding a texture to our plane. We’ll first create an instance of `TextureLoader` so we can use it more than once.
+Add the following variable above the `scene` variable.
 
 ```
 var textureLoader = new THREE.TextureLoader();
