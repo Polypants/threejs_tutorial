@@ -54,7 +54,7 @@ var OrbitControls = require('three-orbit-controls')(THREE);
     });
     planeMaterial.map = textureLoader.load('./assets/rock.jpg');
     planeMaterial.bumpMap = textureLoader.load('./assets/rock.jpg');
-    planeMaterial.bumpScale = 0.01;
+    planeMaterial.bumpScale = 0.02;
     var plane = new THREE.Mesh(planeGeometry, planeMaterial);
     plane.position.y = -1;
     plane.rotation.x = -Math.PI / 2;
