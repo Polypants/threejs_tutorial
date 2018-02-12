@@ -1,6 +1,6 @@
 # A Three.js Tutorial
 
-This tutorial will walk you through the basics of setting up a scene, to using cube environment maps, bump texture maps, and reflective textures.
+This tutorial will walk you through the basics of setting up a scene, using cube environment maps, bump texture maps, and reflective textures.
 
 ## The Project
 
