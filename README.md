@@ -49,7 +49,9 @@ var camera = new THREE.PerspectiveCamera(
 
 Now we'll need to render what the camera sees. Three.js comes with different kinds of renderers, we will be using the WebGL renderer.
 
-There are also `canvas` and `SVG` renderers. These use the CPU for rendering, unlike the webGL renderer which uses the GPU. This means rendering time is way faster with the WebGL renderer. Also, some features like shadows and shaders aren’t available to those other renderers. They can be useful if you need to support environments that don't support WebGL.
+There are also canvas and SVG renderers. These use the CPU for rendering, unlike the webGL renderer which uses the GPU. 
+This means rendering time is way faster with the WebGL renderer. Also, some features like shadows and shaders aren’t available to those other renderers. 
+They can be useful if you need to support environments that don't support WebGL.
 
 ```
 var renderer = new THREE.WebGLRenderer();
