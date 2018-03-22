@@ -17,15 +17,11 @@ var OrbitControls = require('three-orbit-controls')(THREE);
   scene.background = reflectionCube;
 
   // create camera
-  var fieldOfView = 45;
-  var aspectRatio = window.innerWidth / window.innerHeight;
-  var nearClipping = 1;
-  var farClipping = 1000;
   var camera = new THREE.PerspectiveCamera(
-    fieldOfView,
-    aspectRatio,
-    nearClipping,
-    farClipping
+    45,
+    window.innerWidth / window.innerHeight,
+    1,
+    1000
   );
   camera.position.z = 10;
 
