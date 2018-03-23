@@ -72,7 +72,7 @@ function createIcosahedron() {
 
 function animate(scene, camera, controls, renderer, time, icosahedron) {
   // update time variable for shader
-  time += 0.08;
+  time += 0.05;
 
   // update rotation for cool spin effect
   icosahedron.rotation.x += 0.005;

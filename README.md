@@ -1,21 +1,19 @@
-# A Three.js Tutorial
-
-## Exercise 1: The Basics
+# Exercise 1: The Basics
 In this exercise, we'll setup a scene, an environment map, a bump texture map and explore materials.
 
-### What we're building
+## What we're building
 
 To see the finished product: download the archive, `cd` to `threejs_tutorial/basics/finish` and run `npm install` to install the dependencies.
 
 Once that's done, run `npm start` to start the development server.
 
-### Getting Started
+## Getting Started
 
 `cd` to `threejs_tutorial/basics/start` and run `npm install` to install the dependencies.
 
 Once that's done, run `npm start` to start the development server.
 
-### Creating the Scene Object
+## Creating the Scene Object
 
 A Scene represents the 3D world we will be building. It’s a container for all our 3D objects. Remember to include a capital 'S' in `THREE.Scene()` and a lowercase 's' for the variable name.
 
@@ -23,7 +21,7 @@ A Scene represents the 3D world we will be building. It’s a container for all 
 var scene = new THREE.Scene();
 ```
 
-### Creating a Camera
+## Creating a Camera
 
 The camera is one of two things that will determine how we will see our 3D scene. (The other is the renderer and we'll create that next)
 
@@ -50,7 +48,7 @@ var camera = new THREE.PerspectiveCamera(
 );
 ```
 
-### Creating the Renderer
+## Creating the Renderer
 
 Now we'll need to render what the camera sees. Three.js comes with a few different kinds of renderers. 
 Today, we will be using the WebGL renderer but there are also the canvas and SVG renderers. 
@@ -83,7 +81,7 @@ renderer.render(scene, camera);
 
 If we run this now, we should see a black screen. This is good! This is our 3D world, there’s just nothing to look at yet.
 
-### Creating a Sphere
+## Creating a Sphere
 
 Let’s make something to look at now.
 
@@ -123,12 +121,12 @@ To demonstrate how segments work, go to the three.js docs and try playing with t
 
 https://threejs.org/docs/#api/geometries/SphereGeometry
 
-### The MeshBasicMaterial
+## The MeshBasicMaterial
 
 Right now, the ball just looks like a flat circle. 
 It’s 3D, but because the `MeshBasicMaterial` isn’t affected by light, it’s always 100% lit up in all directions and so it looks flat.
 
-### The MeshLambertMaterial
+## The MeshLambertMaterial
 
 Let's change the material from a `MeshBasicMaterial` to `MeshLambertMaterial`. The lambert material has a matt finish, like rubber or clay.
 
@@ -138,7 +136,7 @@ var sphereMaterial = new THREE.MeshLambertMaterial({ color: 0xffbb00 });
 
 If we check our scene, everything should be black again. This is good! It's back because there's no light to illuminate our sphere.
 
-### Creating a Light
+## Creating a Light
 
 There are 6 different kinds of lights in Three.js.
 We'll create a `PointLight`. The point light is like a light bulb: It shines light in all directions, away from a single point.
@@ -156,7 +154,7 @@ scene.add(pointLight);
 So now we can see our ball again with light shining on it little bit from the side.
 It looks 3D, but it would be better if we could see it from different angles.
 
-### Setting up OrbitControls
+## Setting up OrbitControls
 
 `OrbitControls` is a package made for Three.js to set up basic click and drag controls for a scene.
 We'll need to do a couple things for it to work. The first is initializing the controls.
@@ -166,7 +164,7 @@ After the camera code, add the following code.
 var controls = new OrbitControls(camera);
 ```
 
-### Setting up the Render Loop
+## Setting up the Render Loop
 
 There’s one more thing we’ll need to set up before we can have the controls working.
 
@@ -194,7 +192,7 @@ If we look at our scene, we should be able to drag around and zoom in and out to
 
 Now that we have orbitcontrols, lets play around with another kind of material.
 
-### The MeshPhongMaterial
+## The MeshPhongMaterial
 
 So far, we’ve looked at the `MeshBasicMaterial`, which is always fully illuminated and the `MeshLambertMaterial` which is has a dull, matt finish.
 
@@ -222,7 +220,7 @@ var sphereMaterial = new THREE.MeshPhongMaterial({ color: 0xffbb00, shininess: 1
 
 Now we have the best of `MeshBasicMaterial` and `MeshPhongMaterial` going on.
 
-### Creating the init() Function
+## Creating the init() Function
 
 For organization, many Three.js developers decide to put all the code that has to do with the initial setup of the scene in an `init()` function.
 
@@ -272,7 +270,7 @@ function animate(controls, renderer, scene, camera) {
 
 Now that that’s all done, everything is looking clean and organized.
 
-### Rotations and Creating a Plane
+## Rotations and Creating a Plane
 
 I'd like to set up shadows but we first need something for the sphere to cast a shadow onto. So let’s make a plane under the sphere.
 
@@ -296,7 +294,7 @@ plane.rotation.x = -Math.PI / 2;
 scene.add(plane);
 ```
 
-### Setting up Shadows
+## Setting up Shadows
 
 
 To render shadows, we need do a few different things. First, we need to tell the renderer that shadows will be rendered.
@@ -330,7 +328,7 @@ pointLight.shadow.mapSize.width = 2048;
 pointLight.shadow.mapSize.height = 2048;
 ```
 
-### The MeshStandardMaterial
+## The MeshStandardMaterial
 
 There’s one more material we’ll try out and it’s called the standard material. This material is considered an industry standard, hence its name.
 
@@ -360,7 +358,7 @@ sphereMaterial.transparent = true;
 
 Now we can set the `opacity` to `0.5` or something and see the result. But I don't think it looks that good so I'm gonna set it back to `1`.
 
-### Adding Textures
+## Adding Textures
 
 Let’s try adding a texture to our plane. We’ll first create an instance of `TextureLoader` so we can use it more than once.
 
@@ -398,7 +396,7 @@ planeMaterial.bumpScale = 0.02;
 
 Now if we pan our scene around, the plane looks just the right amount of bumpy and rough to look like concrete.
 
-### Setting up the Background
+## Setting up the Background
 
 Backgrounds (or environment maps, or cube maps) are created from 6 images that are put together in a cube shape that will surround the scene.
 
@@ -431,77 +429,184 @@ Try playing with the `metalness` and `roughness` values of the `sphereMaterial` 
 
 And we're done with this exercise! Now it's time to learn the basics of shaders.
 
-## Exercise 2: Shaders
+# Exercise 2: Shaders
 
 Shaders are custom materials that you can make with the power of math!
 
-### What we're building
+## What we're building
 
 To see the finished product: `cd` to `threejs_tutorial/shaders/finish` and run `npm install` to install the dependencies.
 
 Once that's done, run `npm start` to start the development server.
 
 This is a very simple example of the power of shaders.
-The colour and position of each face of the object is being updated each frame.
+The colour and position of each face of the object is being updated each frame based on a variables being passed into the shader code from Three.js
 
-### Getting Started
+## Getting Started
 
 `cd` to `threejs_tutorial/shaders/start` and run `npm install` to install the dependencies.
 
 Once that's done, run `npm start` to start the development server.
 
-### About Shaders
+##What we're working with
 
+The `main.js` in `threejs_tutorial/shaders/start` has a basic scene already set up.
+This is so we can see what the object looks like before our custom shaders are applied.
+
+Right now the object has a `MeshNormalMaterial` applied to it.
+This material is mainly used for testing and doesn't require light to be visible.
+
+### What are Shaders?
+
+Shaders are custom materials.
 Shaders are written in the OpenGL Shading Language (GLSL).
 There are a few different kinds of shaders, today we'll be using vertex shaders and fragment shaders.
 
 ### What are Vertex Shaders?
 
-A vertex is where two or more lines meet. So a vertex shader is run once for each mesh its applied to.
+A vertex is where two or more lines meet. So for example, a triangle as three vertexes.
+
+A vertex shader is run once for each vertex of a mesh its applied to.
+Also, Three.js will pass in special variables for vertex shaders, including ones that have to do with the vertex position.
 
 ### What are Fragment Shaders?
 
-A fragment is like a pixel. Fragment shaders come into play when the 3D object is being rendered as a 2D image.
+A fragment is similar to a pixel. Fragments are calculated when the 3D object is being rendered as a 2D image.
 The fragment shader is applied to each 'fragment' the 2D image takes up of the entire rendered image.
+The size covered by a fragment is related to the pixel area, but rasterization can produce multiple fragments 
+from the same object per-pixel, depending on various multisampling parameters and OpenGL state.
 
-### What's the main() function do?
+## Setting up the main.js
 
-Both Fragment and vertex shaders require a `main()` function. 
-It gets called by WebGL for each vertex or fragment of the mesh its applied to.
+We need to do a couple things to our `main.js` before we start writing our shader code.
 
-### What's a Uniform Variable?
+First, we need to uncomment the `ShaderMaterial` code (lines 16 to 22).
+We should also comment out the `MeshNormalMaterial`, now that we're not using it.
 
-Uniform variables are used to communicate with your vertex or fragment shader from "outside".
-They are variables passed into shaders from Three.js and they can't be changed by the shader program.
+Second, in the `animate()` function at the bottom, uncomment the following code.
 
-### What's a Varying Variable?
+```
+icosahedron.material.uniforms.time.value = time;
+```
 
-Varying variables are for passing values between vertex and fragment shaders.
+`time` is a variable that's been setup to start at 0 and add 0.05 each frame.
+This line of code passes that variable into the vertex shader.
+You can see the value of `time` and how often it's updated by checking the console, where it's being printed each frame.
 
-### So what are we doing again?
+the `ShaderMaterial` has a `uniforms` value that's an object.
+The object contains two properties: `type` and `value`. The type is 'f' for float, and the value is set to 0 to start.
 
-We are passing a variable from Three.js named `time` into the vertex shader.
-the time variable has been setup in the Three.js script to add `0.05` for every rendered frame. That's it.
-You can see what it's outputting each frame in the console.
+### What is the main() function?
 
-With what the time variable is passing into the vertex shader, we are going to make the faces of the mesh expand and contract.
+Both Fragment and vertex shaders need a `main()` function.
+The vertex shader `main()` function gets called once for every vertex of the mesh it's applied to.
+And the fragment shader `main()` function gets called once* for every fragment the 3D object takes up of the final 2D rendered image.
 
-First, we need to tell the vertex shader about some variables we'll be using.
+\* or more depending on various multisampling parameters and OpenGL state.
+
+## Adding Motion to the Faces
+
+With the `time` variable and a little math, we are going to make the faces of the mesh move outward and back inward.
+
+In `shader.vert` We first need to setup some variables we'll be using.
 
 ```
 uniform float time;
+```
+
+### What's a Uniform Variable?
+
+`uniform` variables are used to communicate with your vertex or fragment shader from "outside".
+They are variables passed into shaders by Three.js. Also, they can't be changed by the shader.
+
+Back to coding. Now, we'll set the value of `dist`. Add the following code inside the `main()` function in `shader.vert`
+
+```
+float dist = sin(time) * 0.5 + 0.5;
+```
+
+If you'd like to see what that calculation does, open your terminal, write `node` then drag in the timeSineOutput.js file.
+It's a simple program that contains the same calculation and logs the output to the console.
+That's what we'll be using to set the position of each face.
+
+Now we'll add the following line of code to initialize a a variable named `offset`.
+
+```
+vec4 offset = vec4(position, 1.0);
+```
+
+A `vec4` variable is a variable that contains 4 numbers.
+
+`position` is passed in automatically by Three.js. It's a `vec3` (it contains 3 numeric values).
+
+And now, we'll add the following code to update the value stored in `offset`.
+
+```
+offset.xyz += normal * dist;
+```
+
+`normal` is ...
+
+`.xyz` means ...
+
+And finally, we'll add the following code to set an internal variable called `gl_Position`
+
+```
+gl_Position = projectionMatrix * modelViewMatrix * offset;
+```
+
+`gl_Position` is ...
+
+`projectionMatrix` and `modelViewMatrix` are built-in uniforms provided by ThreeJS.
+
+`projectionMatrix` is used to convert 3D world units into 2D screen-space.
+
+`viewMatrix` an inverse of our PerspectiveCamera's world matrix.
+
+`modelMatrix` the model-space matrix of our Mesh
+
+`modelViewMatrix` is a combination of the view and model matrix.
+
+We won't be able to see the object yet. This is because we haven't given it any colour.
+
+In the `shader.frag` we'll add the following code inside the `main()` function
+
+```
+gl_FragColor = vec4(1, 1, 1, 1.0);
+```
+
+`gl_FragColor` is the variable that determines the colour of the fragment. So the above code is setting each face to white.
+
+The fourth parameter isn't opacity (or alpha). It's ...
+
+And now we can see the object with it's animation.
+
+## Updating the colour
+
+To be able to update the colour, we'll need to be able to pass information between our two shaders.
+This is exactly what `varying` variables are used for.
+
+### What's a Varying Variable?
+
+`varying` variables are for passing values between vertex and fragment shaders.
+
+We'll modify `dist` to a `varying` variable and then use it in the fragment shader to update the colour.
+First, we'll need to initialize it outside the `main()` to make it global and add the keyword `varying`.
+
+Add the following code to the tops of both `shader.vert` and `shader.frag`.
+
+```
 varying float dist;
 ```
 
-the shaderMaterial has a uniforms value thats an object. This is a type and a value. The type is 'f' for float, and the value is set to 0 to start.
+We can now remove `float` from in front of `dist` inside the `main()` function of `shader.vert`.
 
-`gl_FragColor` is the colour of the fragment.
+Now, the value of `dist` is shared between the two files.
 
-`position` is passed in automatically by Three.js.
+Add the following code to inside the `main()` function of the `shader.frag`.
 
-ThreeJS provides a few built-in uniforms for shaders, such as the following 4x4 matrices, as mat4 data types:
-
-projectionMatrix — used to convert 3D world units into 2D screen-space.
-viewMatrix — an inverse of our PerspectiveCamera's world matrix
-modelMatrix — the model-space matrix of our Mesh
-modelViewMatrix — a combination of the view and model matrix
+```
+float red = dist;
+float blue = 1.0 - dist;
+gl_FragColor = vec4(red, 0.5, blue, 1.0);
+```
