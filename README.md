@@ -545,9 +545,10 @@ And now, we'll add the following code to update the value stored in `offset`.
 offset.xyz += normal * dist;
 ```
 
-`normal` is ...
+A normal is a perpendicular line sticking out of the center of a face. 
+The `normal` variable is passed in from Three.js.
 
-`.xyz` means ...
+`.xyz` is used to only target the first three values of the `vec4` variable.
 
 And finally, we'll add the following code to set an internal variable called `gl_Position`
 
@@ -555,7 +556,7 @@ And finally, we'll add the following code to set an internal variable called `gl
 gl_Position = projectionMatrix * modelViewMatrix * offset;
 ```
 
-`gl_Position` is ...
+`gl_Position` is the output position of the current vertex.
 
 `projectionMatrix` and `modelViewMatrix` are built-in uniforms provided by ThreeJS.
 
@@ -563,13 +564,13 @@ gl_Position = projectionMatrix * modelViewMatrix * offset;
 
 `viewMatrix` an inverse of our PerspectiveCamera's world matrix.
 
-`modelMatrix` the model-space matrix of our Mesh
+`modelMatrix` the model-space matrix of our Mesh.
 
 `modelViewMatrix` is a combination of the view and model matrix.
 
 We won't be able to see the object yet. This is because we haven't given it any colour.
 
-In the `shader.frag` we'll add the following code inside the `main()` function
+In the `shader.frag` we'll add the following code inside the `main()` function.
 
 ```
 gl_FragColor = vec4(1, 1, 1, 1.0);
