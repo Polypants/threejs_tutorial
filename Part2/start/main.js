@@ -8,17 +8,16 @@ function createIcosahedron() {
   // create icosahedron geometry
   var icosahedronGeometry = new THREE.IcosahedronGeometry();
 
-  // create icosahedron normals material to start with
   // this should be commented out after we start using the shaders
-  // var icosahedronMaterial = new THREE.MeshNormalMaterial();
+  var icosahedronMaterial = new THREE.MeshNormalMaterial();
 
   // create icosahedron material
-  var icosahedronMaterial = new THREE.ShaderMaterial({
-    vertexShader: vertShader,
-    fragmentShader: fragShader,
-    uniforms: {
-      time: { type: 'f', value: 0 }
-    }
+  // var icosahedronMaterial = new THREE.ShaderMaterial({
+  //   vertexShader: vertShader,
+  //   fragmentShader: fragShader,
+  //   uniforms: {
+  //     time: { type: 'f', value: 0 }
+  //   }
   });
 
   // create icosahedron mesh and add to scene
@@ -80,7 +79,7 @@ function animate(scene, camera, controls, renderer, time, icosahedron) {
   icosahedron.rotation.z += 0.005;
 
   // update the shader time attribute
-  icosahedron.material.uniforms.time.value = time;
+  // icosahedron.material.uniforms.time.value = time;
 
   requestAnimationFrame(function() {
     animate(scene, camera, controls, renderer, time, icosahedron);

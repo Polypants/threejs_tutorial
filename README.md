@@ -1,17 +1,23 @@
 # Exercise 1: The Basics
+
 In this exercise, we'll setup a scene, an environment map, a bump texture map and explore materials.
 
 ## What we're building
 
-To see the finished product: download the archive, `cd` to `threejs_tutorial/basics/finish` and run `npm install` to install the dependencies.
+To see the finished product:
 
-Once that's done, run `npm start` to start the development server.
+1. Download the archive.
+
+2. Unzip it and navigate to the unzipped folder in your terminal then run `npm install`.
+
+3. Run `npm run part1-finish`. This will open the completed project.
 
 ## Getting Started
 
-`cd` to `threejs_tutorial/basics/start` and run `npm install` to install the dependencies.
+Run `npm run part1-start` in your terminal to start the development server.
 
-Once that's done, run `npm start` to start the development server.
+I've setup the starting project with Three.js already installed and ready to go.
+If you look at the console, you can see the `THREE` object has been logged.
 
 ## Creating the Scene Object
 
@@ -67,7 +73,7 @@ We also need to set the size of the renderer, which will determine the size of t
 renderer.setSize(window.innerWidth, window.innerHeight);
 ```
 
-And then append the `renderer`’s `domElement` attribute to the `#root` div, already present in our index.HTML file.
+And then append the `renderer`’s `domElement` attribute to the `#root` div, already present in our `index.HTML` file.
 
 ```
 document.getElementById("root").appendChild(renderer.domElement);
@@ -79,7 +85,8 @@ And now we can call the `render()` method of the `renderer` object to get it to 
 renderer.render(scene, camera);
 ```
 
-If we run this now, we should see a black screen. This is good! This is our 3D world, there’s just nothing to look at yet.
+If we run this now, we should see a black screen.
+This is good! This is our 3D world, there’s just nothing to look at yet.
 
 ## Creating a Sphere
 
@@ -189,14 +196,14 @@ Now, the controls are updated with each frame and the renderer renders the image
 
 If we look at our scene, we should be able to drag around and zoom in and out to get a better view of what’s going on.
 
-
-Now that we have orbitcontrols, lets play around with another kind of material.
+Now that we have `orbitcontrols`, lets play around with another kind of material.
 
 ## The MeshPhongMaterial
 
 So far, we’ve looked at the `MeshBasicMaterial`, which is always fully illuminated and the `MeshLambertMaterial` which is has a dull, matt finish.
 
 Lets now try the `MeshPhongMaterial` which adds a `shininess` parameter.
+
 Modify the `sphereMaterial` to be a `MeshPhongMaterial` and add a `shininess` parameter, after the color, and set it to 10.
 
 ```
@@ -215,7 +222,12 @@ If we add a couple more properties, `emissive` and `emissiveIntensity` we can ha
 `emissive` is the colour the material will emit. This defaults to black. `emissiveIntensity` will change how string it is, and defaults to 1.
 
 ```
-var sphereMaterial = new THREE.MeshPhongMaterial({ color: 0xffbb00, shininess: 1000, emissive: 0xffbb00, emissiveIntensity: 0.2 });
+var sphereMaterial = new THREE.MeshPhongMaterial({ 
+  color: 0xffbb00, 
+  shininess: 1000, 
+  emissive: 0xffbb00, 
+  emissiveIntensity: 0.2 
+});
 ```
 
 Now we have the best of `MeshBasicMaterial` and `MeshPhongMaterial` going on.
@@ -224,7 +236,7 @@ Now we have the best of `MeshBasicMaterial` and `MeshPhongMaterial` going on.
 
 For organization, many Three.js developers decide to put all the code that has to do with the initial setup of the scene in an `init()` function.
 
-This will make our code neater and takes all our variables out of the global namespace which is always a good thing.
+Doing this will make our code neater and takes all our variables out of the global namespace which is always a good thing.
 
 ```
 init();
@@ -296,8 +308,11 @@ scene.add(plane);
 
 ## Setting up Shadows
 
+To render shadows, we need do a few different things.
 
-To render shadows, we need do a few different things. First, we need to tell the renderer that shadows will be rendered.
+First, we need to tell the renderer that shadows will be rendered.
+
+Add the following code just under the `renderer` code.
 
 ```
 renderer.shadowMap.enabled = true;
@@ -305,15 +320,21 @@ renderer.shadowMap.enabled = true;
 
 Next, we'll tell the light to cast shadows.
 
+Add the following code just under the `pointLight` code.
+
 ```
 pointLight.castShadow = true;
 ```
 
 Finally, we'll set which objects should cast shadows and which objects should receive them.
 
+Add the following code just under the `plane` code.
+
 ```
 plane.receiveShadow = true;
 ```
+
+And finally, add the following code just under the `sphere` code.
 
 ```
 sphere.castShadow = true;
@@ -322,6 +343,8 @@ sphere.castShadow = true;
 The shadows are looking a little pixely, so let’s increase their resolution.
 
 The default is 512 so let’s try doubling it. If you’re feeling confident, you can quadruple it. Or make it whatever you want.
+
+Add the following code just under the `pointLight` code.
 
 ```
 pointLight.shadow.mapSize.width = 2048;
@@ -340,23 +363,13 @@ Where we have declared the `sphereMaterial`, replace it with this code.
 
 ```
 var sphereMaterial = new THREE.MeshStandardMaterial({
-    color: 0xff5500,
+    color: 0xffbb00,
     roughness: 0,
-    metalness: 0,
-    opacity: 1
+    metalness: 0
 });
 ```
 
 Try playing with the `roughness` and `metalness` values to see how it affects the look of the sphere.
-
-
-If you haven't noticed already, opacity won't do anything yet. We need to set the material's `transparent` parameter to `true` so it will accept an `opacity` value.
-
-```
-sphereMaterial.transparent = true;
-```
-
-Now we can set the `opacity` to `0.5` or something and see the result. But I don't think it looks that good so I'm gonna set it back to `1`.
 
 ## Adding Textures
 
@@ -370,7 +383,7 @@ var textureLoader = new THREE.TextureLoader();
 
 Now we can load in a texture and set it as an overlay on our `planeMaterial`.
 
-There's a concrete texture called rock.jpg inside the assets folder. Let's use that.
+There's a concrete texture called `rock.jpg` inside the assets folder. Let's use that.
 (it's named rock because I kept spelling concrete wrong :s)
 
 ```
@@ -384,7 +397,10 @@ This is the only material bump maps are available for.
 Let’s also set it’s `roughness` to `0.8` for a realistic concrete look.
 
 ```
-var planeMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.8 });
+var planeMaterial = new THREE.MeshStandardMaterial({ 
+  color: 0xffffff, 
+  roughness: 0.8 
+});
 planeMaterial.bumpMap = textureLoader.load('assets/rock.jpg');
 ```
 
@@ -413,7 +429,7 @@ var cubeTexture = new THREE.CubeTextureLoader().load([
 ]);
 ```
 
-Now that that’s done, we can set the scene background to the `reflectionCube`.
+Now that that’s done, we can set the scene background to the `cubeTexture`.
 
 ```
 scene.background = cubeTexture;
@@ -422,12 +438,14 @@ scene.background = cubeTexture;
 And we can set the `envMap` (environment map) property of our `sphereMaterial` to the `cubeTexture`, to give it something to reflect.
 
 ```
-sphereMaterial.envMap = reflectionCube;
+sphereMaterial.envMap = cubeTexture;
 ```
 
 Try playing with the `metalness` and `roughness` values of the `sphereMaterial` to see how it affects the reflection of the background.
 
-And we're done with this exercise! Now it's time to learn the basics of shaders.
+And we're done with this exercise! 
+
+Now it's time to learn the basics of shaders!!
 
 # Exercise 2: Shaders
 
@@ -435,20 +453,16 @@ Shaders are custom materials that you can make with the power of math!
 
 ## What we're building
 
-To see the finished product: `cd` to `threejs_tutorial/shaders/finish` and run `npm install` to install the dependencies.
-
-Once that's done, run `npm start` to start the development server.
+Run `npm run part2-finish` to check out the finished product.
 
 This is a very simple example of the power of shaders.
 The colour and position of each face of the object is being updated each frame based on a variables being passed into the shader code from Three.js
 
 ## Getting Started
 
-`cd` to `threejs_tutorial/shaders/start` and run `npm install` to install the dependencies.
+Run `npm run part2-start` in your terminal.
 
-Once that's done, run `npm start` to start the development server.
-
-##What we're working with
+## What we're working with
 
 The `main.js` in `threejs_tutorial/shaders/start` has a basic scene already set up.
 This is so we can see what the object looks like before our custom shaders are applied.
@@ -481,6 +495,7 @@ from the same object per-pixel, depending on various multisampling parameters an
 We need to do a couple things to our `main.js` before we start writing our shader code.
 
 First, we need to uncomment the `ShaderMaterial` code (lines 16 to 22).
+
 We should also comment out the `MeshNormalMaterial`, now that we're not using it.
 
 Second, in the `animate()` function at the bottom, uncomment the following code.
@@ -493,14 +508,18 @@ icosahedron.material.uniforms.time.value = time;
 This line of code passes that variable into the vertex shader.
 You can see the value of `time` and how often it's updated by checking the console, where it's being printed each frame.
 
-the `ShaderMaterial` has a `uniforms` value that's an object.
+In the `main.js`, the `ShaderMaterial` has a `uniforms` value that's an object.
 The object contains two properties: `type` and `value`. The type is 'f' for float, and the value is set to 0 to start.
+
+This is needed to define exactly what the shader should expect to have passed into it.
 
 ### What is the main() function?
 
 Both Fragment and vertex shaders need a `main()` function.
+
 The vertex shader `main()` function gets called once for every vertex of the mesh it's applied to.
-And the fragment shader `main()` function gets called once* for every fragment the 3D object takes up of the final 2D rendered image.
+
+The fragment shader `main()` function gets called once* for every fragment the 3D object takes up of the final 2D rendered image.
 
 \* or more depending on various multisampling parameters and OpenGL state.
 
@@ -514,22 +533,36 @@ In `shader.vert` We first need to setup some variables we'll be using.
 uniform float time;
 ```
 
-### What's a Uniform Variable?
+This initializes the `time` variable that we passed in.
 
-`uniform` variables are used to communicate with your vertex or fragment shader from "outside".
-They are variables passed into shaders by Three.js. Also, they can't be changed by the shader.
+### What's a Uniform?
 
-Back to coding. Now, we'll set the value of `dist`. Add the following code inside the `main()` function in `shader.vert`
+A `uniform` variable is used to communicate with your vertex shader from "outside".
+They are variables passed into shaders by us, from our code.
+
+Now, we'll add the following code under the `uniform` we just made, a the top of the `shader.vert`.
 
 ```
-float dist = sin(time) * 0.5 + 0.5;
+varying float dist;
 ```
 
-If you'd like to see what that calculation does, open your terminal, write `node` then drag in the timeSineOutput.js file.
+### What's a Varying?
+
+A `varying` variable is for passing values between vertex and fragment shaders. We'll be using `dist` soon in our fragment shader.
+
+Now, we'll set the value of `dist`. Add the following code inside the `main()` function in `shader.vert`
+
+```
+dist = sin(time) * 0.5 + 0.5;
+```
+
+If you'd like to see what that calculation does, open your terminal, write `node` then drag in the `timeSineOutput.js` file that's inside `threejs_tutorial/part2/start`.
 It's a simple program that contains the same calculation and logs the output to the console.
 That's what we'll be using to set the position of each face.
 
-Now we'll add the following line of code to initialize a a variable named `offset`.
+Now we'll add the following line of code to initialize a a variable named `offset`, which will be used in calculating the final position of the faces.
+
+Add the following code to inside the `shader.vert`s `main()` function.
 
 ```
 vec4 offset = vec4(position, 1.0);
@@ -537,7 +570,7 @@ vec4 offset = vec4(position, 1.0);
 
 A `vec4` variable is a variable that contains 4 numbers.
 
-`position` is passed in automatically by Three.js. It's a `vec3` (it contains 3 numeric values).
+`position` is passed in automatically by Three.js. It's a `vec3` (it contains 3 numbers).
 
 And now, we'll add the following code to update the value stored in `offset`.
 
@@ -545,12 +578,12 @@ And now, we'll add the following code to update the value stored in `offset`.
 offset.xyz += normal * dist;
 ```
 
-A normal is a perpendicular line sticking out of the center of a face. 
+In 3D rendering, a normal is a perpendicular line sticking out of the center of a face. 
 The `normal` variable is passed in from Three.js.
 
 `.xyz` is used to only target the first three values of the `vec4` variable.
 
-And finally, we'll add the following code to set an internal variable called `gl_Position`
+And finally, we'll add the following code to set an internal variable called `gl_Position`. Add it to the `main()` function.
 
 ```
 gl_Position = projectionMatrix * modelViewMatrix * offset;
@@ -558,49 +591,29 @@ gl_Position = projectionMatrix * modelViewMatrix * offset;
 
 `gl_Position` is the output position of the current vertex.
 
-`projectionMatrix` and `modelViewMatrix` are built-in uniforms provided by ThreeJS.
-
-`projectionMatrix` is used to convert 3D world units into 2D screen-space.
-
-`viewMatrix` an inverse of our PerspectiveCamera's world matrix.
-
-`modelMatrix` the model-space matrix of our Mesh.
-
-`modelViewMatrix` is a combination of the view and model matrix.
+`projectionMatrix` and `modelViewMatrix` are built-in variables passed in by ThreeJS.
 
 We won't be able to see the object yet. This is because we haven't given it any colour.
 
 In the `shader.frag` we'll add the following code inside the `main()` function.
 
 ```
-gl_FragColor = vec4(1, 1, 1, 1.0);
+gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
 ```
 
 `gl_FragColor` is the variable that determines the colour of the fragment. So the above code is setting each face to white.
-
-The fourth parameter isn't opacity (or alpha). It's ...
 
 And now we can see the object with it's animation.
 
 ## Updating the colour
 
-To be able to update the colour, we'll need to be able to pass information between our two shaders.
-This is exactly what `varying` variables are used for.
+To be able to update the colour, we'll need use the `varying` variable we setup earlier.
 
-### What's a Varying Variable?
-
-`varying` variables are for passing values between vertex and fragment shaders.
-
-We'll modify `dist` to a `varying` variable and then use it in the fragment shader to update the colour.
-First, we'll need to initialize it outside the `main()` to make it global and add the keyword `varying`.
-
-Add the following code to the tops of both `shader.vert` and `shader.frag`.
+Add the following code to the tops of the `shader.frag`.
 
 ```
 varying float dist;
 ```
-
-We can now remove `float` from in front of `dist` inside the `main()` function of `shader.vert`.
 
 Now, the value of `dist` is shared between the two files.
 
@@ -611,3 +624,7 @@ float red = dist;
 float blue = 1.0 - dist;
 gl_FragColor = vec4(red, 0.5, blue, 1.0);
 ```
+
+And now the colour is updating!
+
+And we're done!

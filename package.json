@@ -1,11 +1,13 @@
 {
-  "name": "threejs_tutorial_start",
+  "name": "threejs_tutorial",
   "version": "1.0.0",
   "description": "",
   "main": "main.js",
   "scripts": {
-    "start": "webpack-dev-server --open",
-    "build": "webpack"
+    "part1-start": "cd Part1/start && webpack-dev-server --open",
+    "part2-start": "cd Part2/start && webpack-dev-server --open",
+    "part1-finish": "cd Part1/finish && webpack-dev-server --open",
+    "part2-finish": "cd Part2/finish && webpack-dev-server --open"
   },
   "keywords": [],
   "author": "",
