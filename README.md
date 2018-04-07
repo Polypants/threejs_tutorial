@@ -23,7 +23,7 @@ If you look at the console, you can see the `THREE` object has been logged.
 
 A Scene represents the 3D world we will be building. It’s a container for all our 3D objects.
 
-> 💡 Remember to include a capital 'S' in `THREE.Scene()` and a lowercase 's' for the variable name.
+> ❕ Remember to include a capital 'S' in `THREE.Scene()` and a lowercase 's' for the variable name.
 
 ```javascript
 var scene = new THREE.Scene();
