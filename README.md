@@ -529,7 +529,7 @@ With the `time` variable and a little math, we are going to make the faces of th
 
 In `shader.vert` We first need to setup some variables we'll be using.
 
-```clike
+```glsl
 uniform float time;
 ```
 
@@ -542,7 +542,7 @@ They are variables passed into shaders by us, from our code.
 
 Now, we'll add the following code under the `uniform` we just made, a the top of the `shader.vert`.
 
-```clike
+```glsl
 varying float dist;
 ```
 
@@ -552,7 +552,7 @@ A `varying` variable is for passing values between vertex and fragment shaders. 
 
 Now, we'll set the value of `dist`. Add the following code inside the `main()` function in `shader.vert`
 
-```clike
+```glsl
 dist = sin(time) * 0.5 + 0.5;
 ```
 
@@ -564,7 +564,7 @@ Now we'll add the following line of code to initialize a a variable named `offse
 
 Add the following code to inside the `shader.vert`s `main()` function.
 
-```clike
+```glsl
 vec4 offset = vec4(position, 1.0);
 ```
 
@@ -574,7 +574,7 @@ A `vec4` variable is a variable that contains 4 numbers.
 
 And now, we'll add the following code to update the value stored in `offset`.
 
-```clike
+```glsl
 offset.xyz += normal * dist;
 ```
 
@@ -585,7 +585,7 @@ The `normal` variable is passed in from Three.js.
 
 And finally, we'll add the following code to set an internal variable called `gl_Position`. Add it to the `main()` function.
 
-```clike
+```glsl
 gl_Position = projectionMatrix * modelViewMatrix * offset;
 ```
 
@@ -597,7 +597,7 @@ We won't be able to see the object yet. This is because we haven't given it any 
 
 In the `shader.frag` we'll add the following code inside the `main()` function.
 
-```clike
+```glsl
 gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
 ```
 
@@ -611,7 +611,7 @@ To be able to update the colour, we'll need use the `varying` variable we setup 
 
 Add the following code to the tops of the `shader.frag`.
 
-```clike
+```glsl
 varying float dist;
 ```
 
@@ -619,7 +619,7 @@ Now, the value of `dist` is shared between the two files.
 
 Add the following code to inside the `main()` function of the `shader.frag`.
 
-```clike
+```glsl
 float red = dist;
 float blue = 1.0 - dist;
 gl_FragColor = vec4(red, 0.5, blue, 1.0);
