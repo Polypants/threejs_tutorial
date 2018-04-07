@@ -23,7 +23,7 @@ If you look at the console, you can see the `THREE` object has been logged.
 
 A Scene represents the 3D world we will be building. It’s a container for all our 3D objects.
 
-> ❕ Remember to include a capital 'S' in `THREE.Scene()` and a lowercase 's' for the variable name.
+> ‼️ Remember to include a capital 'S' in `THREE.Scene()` and a lowercase 's' for the variable name.
 
 ```javascript
 var scene = new THREE.Scene();
@@ -31,21 +31,16 @@ var scene = new THREE.Scene();
 
 ## Creating a Camera
 
-The camera is one of two things that will determine how we will see our 3D scene. (The other is the renderer and we'll create that next)
+The camera is one of two things that will determine how we will see our 3D scene. (The other is the `renderer` and we'll create that next)
 
-The first parameter is the field of view,
+* The first parameter is the field of view,
+* second is the aspect ratio,
+* third is the near clipping plane and
+* fourth is the far clipping plane.
 
-second is the aspect ratio,
-
-third is the near clipping plane and
-
-fourth is the far clipping plane.
-
-Anything outside the clipping planes won’t be visible to our camera and won’t be included in the calculations used to generate the image.
-
-Heres a picture of what these parameters set for a THREE.js camera:
-
-http://sots.brookes.ac.uk/webmsc/p00700/pngs/threejs_camera_model.png
+> 💡 Anything outside the clipping planes won’t be visible to our camera and won’t be included in the calculations used to generate the image.
+> Heres a picture of what these parameters set for a THREE.js camera:
+> http://sots.brookes.ac.uk/webmsc/p00700/pngs/threejs_camera_model.png
 
 ```javascript
 var camera = new THREE.PerspectiveCamera(
@@ -59,11 +54,7 @@ var camera = new THREE.PerspectiveCamera(
 ## Creating the Renderer
 
 Now we'll need to render what the camera sees. Three.js comes with a few different kinds of renderers. 
-Today, we will be using the WebGL renderer but there are also the canvas and SVG renderers. 
-These use the CPU for rendering, unlike the webGL renderer which uses the GPU. 
-This means rendering time is way faster with the WebGL renderer. 
-Also, some features like shadows and shaders aren’t available to those other renderers. 
-Other renders can be useful if you need to support environments that don't support WebGL.
+Today, we will be using the WebGL renderer but there are also the canvas and SVG renderers.
 
 ```javascript
 var renderer = new THREE.WebGLRenderer();
@@ -92,11 +83,8 @@ This is good! This is our 3D world, there’s just nothing to look at yet.
 
 ## Creating a Sphere
 
-Let’s make something to look at now.
-
-When we want to create 3D object in Three.js, we need to define the object's shape and material separately.
-Then, they get combined to create a 3D object.
-Then it needs to be added to the scene.
+When creating a 3D object in Three.js, we need to define the object's shape and material separately.
+Then they get combined to create a 3D object, and finally it needs to be added to the scene.
 
 Before the `renderer` code, we will add the following code.
 
@@ -119,16 +107,18 @@ camera.position.z = 10;
 When no parameters are set for a `SphereGeometry`, it defaults to a polygonal sphere and aren't very pretty.
 Let’s add some more vertices to it to make it look more round.
 
-The first parameter is the size (defaults to 1), the second parameter is the width segments, and the third is the height segments.
+* The first parameter is the size (defaults to 1),
+* The second parameter is the width segments and
+* the third is the height segments.
+
 Add parameters to match the following code.
 
 ```javascript
 var sphereGeometry = new THREE.SphereGeometry(1, 48, 48);
 ```
 
-To demonstrate how segments work, go to the three.js docs and try playing with the example.
-
-https://threejs.org/docs/#api/geometries/SphereGeometry
+> 💡 To demonstrate how segments work, go to the three.js docs and try playing with the example.
+> https://threejs.org/docs/#api/geometries/SphereGeometry
 
 ## The MeshBasicMaterial
 
@@ -148,7 +138,7 @@ If we check our scene, everything should be black again. This is good! It's back
 ## Creating a Light
 
 There are 6 different kinds of lights in Three.js.
-We'll create a `PointLight`. The point light is like a light bulb: It shines light in all directions, away from a single point.
+Today, we'll create a `PointLight`. The point light is like a light bulb: It shines light in all directions, away from a single point.
 
 We’ll create a variable called `pointLight` (lowercase `p` in the `var` name), set its color, intensity and position, and finally we'll add it to the scene.
 
@@ -178,7 +168,7 @@ var controls = new OrbitControls(camera);
 There’s one more thing we’ll need to set up before we can have the controls working.
 
 Right now, the `renderer.render()` is being run once, to display a single static image.
-To be able to update the scene, we’ll need to call it recursively (over and over) for each frame.
+To be able to update the scene, we’ll need to update it recursively (over and over) for each frame.
 We could use a `setInterval()` function, but `requestAnimationFrame()` has optimizations for this specific purpose, like pausing when we're not viewing the webpage.
 
 ```javascript
@@ -286,16 +276,16 @@ Now that that’s all done, everything is looking clean and organized.
 
 ## Rotations and Creating a Plane
 
-I'd like to set up shadows but we first need something for the sphere to cast a shadow onto. So let’s make a plane under the sphere.
+Before we can setup shadows, we first need something for the sphere to cast a shadow onto. So let’s make a plane under the sphere.
 
 For now we'll use a `meshLambertMaterial`, but feel free to use a `meshPhongMaterial` and a shininess level to see what it looks like.
 We'll be using yet another material later though.
 
 
 The only new thing we're doing here is setting a `rotation` property.
-Three.js uses radians (not degrees) to calculate angles. Radians are based on the mathematical constant Pi.
 
-A rotation value of `Math.PI` is equal to 180 degrees. So the below rotation value rotates the plane by -90 degrees.
+> 💡 Three.js uses radians (not degrees) to calculate angles. Radians are based on the mathematical constant Pi.
+> A rotation value of `Math.PI` is equal to 180 degrees. So the below rotation value rotates the plane by -90 degrees.
 
 Add the following code under the sphere code.
 
@@ -349,8 +339,8 @@ The default is 512 so let’s try doubling it. If you’re feeling confident, yo
 Add the following code just under the `pointLight` code.
 
 ```javascript
-pointLight.shadow.mapSize.width = 2048;
-pointLight.shadow.mapSize.height = 2048;
+pointLight.shadow.mapSize.width = 1024;
+pointLight.shadow.mapSize.height = 1024;
 ```
 
 ## The MeshStandardMaterial
@@ -472,20 +462,20 @@ This is so we can see what the object looks like before our custom shaders are a
 Right now the object has a `MeshNormalMaterial` applied to it.
 This material is mainly used for testing and doesn't require light to be visible.
 
-### What are Shaders?
+### 🤔 What are Shaders?
 
 Shaders are custom materials.
 Shaders are written in the OpenGL Shading Language (GLSL).
 There are a few different kinds of shaders, today we'll be using vertex shaders and fragment shaders.
 
-### What are Vertex Shaders?
+### 🤔 What are Vertex Shaders?
 
 A vertex is where two or more lines meet. So for example, a triangle as three vertexes.
 
 A vertex shader is run once for each vertex of a mesh its applied to.
 Also, Three.js will pass in special variables for vertex shaders, including ones that have to do with the vertex position.
 
-### What are Fragment Shaders?
+### 🤔 What are Fragment Shaders?
 
 A fragment is similar to a pixel. Fragments are calculated when the 3D object is being rendered as a 2D image.
 The fragment shader is applied to each 'fragment' the 2D image takes up of the entire rendered image.
@@ -515,7 +505,7 @@ The object contains two properties: `type` and `value`. The type is 'f' for floa
 
 This is needed to define exactly what the shader should expect to have passed into it.
 
-### What is the main() function?
+### 🤔 What is the main() function?
 
 Both Fragment and vertex shaders need a `main()` function.
 
@@ -537,7 +527,7 @@ uniform float time;
 
 This initializes the `time` variable that we passed in.
 
-### What's a Uniform?
+### 🤔 What's a Uniform?
 
 A `uniform` variable is used to communicate with your vertex shader from "outside".
 They are variables passed into shaders by us, from our code.
@@ -548,7 +538,7 @@ Now, we'll add the following code under the `uniform` we just made, a the top of
 varying float dist;
 ```
 
-### What's a Varying?
+### 🤔 What's a Varying?
 
 A `varying` variable is for passing values between vertex and fragment shaders. We'll be using `dist` soon in our fragment shader.
 
