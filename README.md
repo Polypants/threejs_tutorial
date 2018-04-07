@@ -23,7 +23,7 @@ If you look at the console, you can see the `THREE` object has been logged.
 
 A Scene represents the 3D world we will be building. It’s a container for all our 3D objects. Remember to include a capital 'S' in `THREE.Scene()` and a lowercase 's' for the variable name.
 
-```
+```javascript
 var scene = new THREE.Scene();
 ```
 
@@ -45,7 +45,7 @@ Heres a picture of what these parameters set for a THREE.js camera:
 
 http://sots.brookes.ac.uk/webmsc/p00700/pngs/threejs_camera_model.png
 
-```
+```javascript
 var camera = new THREE.PerspectiveCamera(
     45,
     window.innerWidth / window.innerHeight,
@@ -63,25 +63,25 @@ This means rendering time is way faster with the WebGL renderer.
 Also, some features like shadows and shaders aren’t available to those other renderers. 
 Other renders can be useful if you need to support environments that don't support WebGL.
 
-```
+```javascript
 var renderer = new THREE.WebGLRenderer();
 ```
 
 We also need to set the size of the renderer, which will determine the size of the rendered image.
 
-```
+```javascript
 renderer.setSize(window.innerWidth, window.innerHeight);
 ```
 
 And then append the `renderer`’s `domElement` attribute to the `#root` div, already present in our `index.HTML` file.
 
-```
+```javascript
 document.getElementById("root").appendChild(renderer.domElement);
 ```
 
 And now we can call the `render()` method of the `renderer` object to get it to display something.
 
-```
+```javascript
 renderer.render(scene, camera);
 ```
 
@@ -98,7 +98,7 @@ Then it needs to be added to the scene.
 
 Before the `renderer` code, we will add the following code.
 
-```
+```javascript
 var sphereGeometry = new THREE.SphereGeometry();
 var sphereMaterial = new THREE.MeshBasicMaterial({ color: 0xffbb00 });
 var sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
@@ -110,7 +110,7 @@ This is because the `camera` and the `sphere` we just created are overlapping ea
 
 Let’s fix this by moving the camera towards us, on the z axis.
 
-```
+```javascript
 camera.position.z = 10;
 ```
 
@@ -120,7 +120,7 @@ Let’s add some more vertices to it to make it look more round.
 The first parameter is the size (defaults to 1), the second parameter is the width segments, and the third is the height segments.
 Add parameters to match the following code.
 
-```
+```javascript
 var sphereGeometry = new THREE.SphereGeometry(1, 48, 48);
 ```
 
@@ -137,7 +137,7 @@ It’s 3D, but because the `MeshBasicMaterial` isn’t affected by light, it’s
 
 Let's change the material from a `MeshBasicMaterial` to `MeshLambertMaterial`. The lambert material has a matt finish, like rubber or clay.
 
-```
+```javascript
 var sphereMaterial = new THREE.MeshLambertMaterial({ color: 0xffbb00 });
 ```
 
@@ -150,7 +150,7 @@ We'll create a `PointLight`. The point light is like a light bulb: It shines lig
 
 We’ll create a variable called `pointLight` (lowercase `p` in the `var` name), set its color, intensity and position, and finally we'll add it to the scene.
 
-```
+```javascript
 var pointLight = new THREE.PointLight(0xffffff, 1.2);
 pointLight.position.x = 10;
 pointLight.position.y = 10;
@@ -167,7 +167,7 @@ It looks 3D, but it would be better if we could see it from different angles.
 We'll need to do a couple things for it to work. The first is initializing the controls.
 After the camera code, add the following code.
 
-```
+```javascript
 var controls = new OrbitControls(camera);
 ```
 
@@ -179,7 +179,7 @@ Right now, the `renderer.render()` is being run once, to display a single static
 To be able to update the scene, we’ll need to call it recursively (over and over) for each frame.
 We could use a `setInterval()` function, but `requestAnimationFrame()` has optimizations for this specific purpose, like pausing when we're not viewing the webpage.
 
-```
+```javascript
 animate();
 
 function animate() {
@@ -206,7 +206,7 @@ Lets now try the `MeshPhongMaterial` which adds a `shininess` parameter.
 
 Modify the `sphereMaterial` to be a `MeshPhongMaterial` and add a `shininess` parameter, after the color, and set it to 10.
 
-```
+```javascript
 var sphereMaterial = new THREE.MeshPhongMaterial({ color: 0xffbb00, shininess: 10 });
 ```
 
@@ -221,7 +221,7 @@ If we add a couple more properties, `emissive` and `emissiveIntensity` we can ha
 
 `emissive` is the colour the material will emit. This defaults to black. `emissiveIntensity` will change how string it is, and defaults to 1.
 
-```
+```javascript
 var sphereMaterial = new THREE.MeshPhongMaterial({ 
   color: 0xffbb00, 
   shininess: 1000, 
@@ -238,7 +238,7 @@ For organization, many Three.js developers decide to put all the code that has t
 
 Doing this will make our code neater and takes all our variables out of the global namespace which is always a good thing.
 
-```
+```javascript
 init();
 
 function init() {
@@ -251,7 +251,7 @@ Make sure to include the `animate()` function call at the bottom of the `init()`
 We could leave it as-is, with `init()` being called before its declared, as JavaScript ‘hoists’ all functions to the top of their block scope.
 But, because we only need to call it once, I like to make the function self-calling with the following code.
 
-```
+```javascript
 (function init() {
     // all the code, excluding the require() statements and the animate() function declaration goes in here.
 }());
@@ -264,13 +264,13 @@ Now that all our variables are not in the global scope, we will need to pass som
 
 At the end of the `init()` function add the following code.
 
-```
+```javascript
 animate(controls, renderer, scene, camera);
 ```
 
 And now modify the `animate()` function to match the following code.
 
-```
+```javascript
 function animate(controls, renderer, scene, camera) {
     requestAnimationFrame(function() {
         animate(controls, renderer, scene, camera);
@@ -297,7 +297,7 @@ A rotation value of `Math.PI` is equal to 180 degrees. So the below rotation val
 
 Add the following code under the sphere code.
 
-```
+```javascript
 var planeGeometry = new THREE.PlaneGeometry(10, 10);
 var planeMaterial = new THREE.MeshLambertMaterial({ color: 0x0055ff });
 var plane = new THREE.Mesh(planeGeometry, planeMaterial);
@@ -314,7 +314,7 @@ First, we need to tell the renderer that shadows will be rendered.
 
 Add the following code just under the `renderer` code.
 
-```
+```javascript
 renderer.shadowMap.enabled = true;
 ```
 
@@ -322,7 +322,7 @@ Next, we'll tell the light to cast shadows.
 
 Add the following code just under the `pointLight` code.
 
-```
+```javascript
 pointLight.castShadow = true;
 ```
 
@@ -330,13 +330,13 @@ Finally, we'll set which objects should cast shadows and which objects should re
 
 Add the following code just under the `plane` code.
 
-```
+```javascript
 plane.receiveShadow = true;
 ```
 
 And finally, add the following code just under the `sphere` code.
 
-```
+```javascript
 sphere.castShadow = true;
 ```
 
@@ -346,7 +346,7 @@ The default is 512 so let’s try doubling it. If you’re feeling confident, yo
 
 Add the following code just under the `pointLight` code.
 
-```
+```javascript
 pointLight.shadow.mapSize.width = 2048;
 pointLight.shadow.mapSize.height = 2048;
 ```
@@ -361,7 +361,7 @@ It has `roughness`, `metalness`, and `opacity` parameters, along with `color`. L
 
 Where we have declared the `sphereMaterial`, replace it with this code.
 
-```
+```javascript
 var sphereMaterial = new THREE.MeshStandardMaterial({
     color: 0xffbb00,
     roughness: 0,
@@ -377,7 +377,7 @@ Let’s try adding a texture to our plane. We’ll first create an instance of `
 
 Add the following variable above the `scene` variable.
 
-```
+```javascript
 var textureLoader = new THREE.TextureLoader();
 ```
 
@@ -386,7 +386,7 @@ Now we can load in a texture and set it as an overlay on our `planeMaterial`.
 There's a concrete texture called `rock.jpg` inside the assets folder. Let's use that.
 (it's named rock because I kept spelling concrete wrong :s)
 
-```
+```javascript
 planeMaterial.map = textureLoader.load('assets/rock.jpg');
 ```
 
@@ -396,7 +396,7 @@ We’ll need to change our plane material to a `MeshStandardMaterial`.
 This is the only material bump maps are available for.
 Let’s also set it’s `roughness` to `0.8` for a realistic concrete look.
 
-```
+```javascript
 var planeMaterial = new THREE.MeshStandardMaterial({ 
   color: 0xffffff, 
   roughness: 0.8 
@@ -406,7 +406,7 @@ planeMaterial.bumpMap = textureLoader.load('assets/rock.jpg');
 
 Okay, that’s a liiiittle too bumpy. Let’s set its `bumpScale` value to 0.02.
 
-```
+```javascript
 planeMaterial.bumpScale = 0.02;
 ```
 
@@ -421,7 +421,7 @@ For today, there’s already an example cube map for us to use as our background
 
 First we need to import all of the faces of the cube from our assets folder. Let’s do that above the `scene` variable.
 
-```
+```javascript
 var cubeTexture = new THREE.CubeTextureLoader().load([
     'assets/cube/px.png', 'assets/cube/nx.png',
     'assets/cube/py.png', 'assets/cube/ny.png',
@@ -431,13 +431,13 @@ var cubeTexture = new THREE.CubeTextureLoader().load([
 
 Now that that’s done, we can set the scene background to the `cubeTexture`.
 
-```
+```javascript
 scene.background = cubeTexture;
 ```
 
 And we can set the `envMap` (environment map) property of our `sphereMaterial` to the `cubeTexture`, to give it something to reflect.
 
-```
+```javascript
 sphereMaterial.envMap = cubeTexture;
 ```
 
@@ -500,7 +500,7 @@ We should also comment out the `MeshNormalMaterial`, now that we're not using it
 
 Second, in the `animate()` function at the bottom, uncomment the following code.
 
-```
+```javascript
 icosahedron.material.uniforms.time.value = time;
 ```
 
@@ -529,7 +529,7 @@ With the `time` variable and a little math, we are going to make the faces of th
 
 In `shader.vert` We first need to setup some variables we'll be using.
 
-```
+```clike
 uniform float time;
 ```
 
@@ -542,7 +542,7 @@ They are variables passed into shaders by us, from our code.
 
 Now, we'll add the following code under the `uniform` we just made, a the top of the `shader.vert`.
 
-```
+```clike
 varying float dist;
 ```
 
@@ -552,7 +552,7 @@ A `varying` variable is for passing values between vertex and fragment shaders. 
 
 Now, we'll set the value of `dist`. Add the following code inside the `main()` function in `shader.vert`
 
-```
+```clike
 dist = sin(time) * 0.5 + 0.5;
 ```
 
@@ -564,7 +564,7 @@ Now we'll add the following line of code to initialize a a variable named `offse
 
 Add the following code to inside the `shader.vert`s `main()` function.
 
-```
+```clike
 vec4 offset = vec4(position, 1.0);
 ```
 
@@ -574,7 +574,7 @@ A `vec4` variable is a variable that contains 4 numbers.
 
 And now, we'll add the following code to update the value stored in `offset`.
 
-```
+```clike
 offset.xyz += normal * dist;
 ```
 
@@ -585,7 +585,7 @@ The `normal` variable is passed in from Three.js.
 
 And finally, we'll add the following code to set an internal variable called `gl_Position`. Add it to the `main()` function.
 
-```
+```clike
 gl_Position = projectionMatrix * modelViewMatrix * offset;
 ```
 
@@ -597,7 +597,7 @@ We won't be able to see the object yet. This is because we haven't given it any 
 
 In the `shader.frag` we'll add the following code inside the `main()` function.
 
-```
+```clike
 gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
 ```
 
@@ -611,7 +611,7 @@ To be able to update the colour, we'll need use the `varying` variable we setup 
 
 Add the following code to the tops of the `shader.frag`.
 
-```
+```clike
 varying float dist;
 ```
 
@@ -619,7 +619,7 @@ Now, the value of `dist` is shared between the two files.
 
 Add the following code to inside the `main()` function of the `shader.frag`.
 
-```
+```clike
 float red = dist;
 float blue = 1.0 - dist;
 gl_FragColor = vec4(red, 0.5, blue, 1.0);
